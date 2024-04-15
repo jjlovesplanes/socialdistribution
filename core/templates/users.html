@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %} Users {% endblock %}
+{% block content %}
+<div id="users-page">
+    <h1>Users</h1>
+    {% if users == None or users|length == 0 %}
+        <h3>No Results</h3>
+    {% else %}
+        <h3>{{ users|length }} Results</h3>
+        <div id="users-list">
+        {% for user in users %}
+            <div class="user-container">
+                <a class="profile-link" href="/profile/{{user.id}}">
+                    <div id="profile-image-container">
+                        <div id="profile-page-image">
+                            <img src="{{ user.profile_image}}" alt="Profile Image">
+                        </div>
+                    </div>
+                </a>
+                <a class="profile-link" href="/profile/{{user.id}}">{{ user }}</a>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

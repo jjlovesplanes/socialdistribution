@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div></div>
+  <!-- Design by foolishdeveloper.com -->
+    <title>Sign UP</title>
+    <style media="screen">
+      *,
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #fff;
+}
+.background{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+.background .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+        #1845ad,
+        #23a2f6
+    );
+    left: -80px;
+    top: -80px;
+}
+.shape:last-child{
+    background: linear-gradient(
+        to right,
+        #ff512f,
+        #f09819
+    );
+    right: -30px;
+    bottom: -80px;
+}
+form{
+    margin: 0 auto;
+    height: 1200px;
+    width: 400px;
+    background-color: rgba(255,255,255,0.13);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+form *{
+    font-family: 'Poppins',sans-serif;
+    color: #080710;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+form h3{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+    color: #23a2f6;
+}
+
+form h5{
+    font-size: 15px;
+    font-weight: 500;
+    color: #f62323;
+}
+
+label{
+    display: block;
+    color: #080710;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(21, 24, 24, 0.218);
+    border-color: #080710;
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.profile-image-upload {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  background-color: rgba(21, 24, 24, 0.218);
+}
+
+.profile-image-upload > input {
+  margin-top: 0;
+  height: fit-content;
+  background-color: transparent;
+}
+
+::placeholder{
+    color: #080710;
+}
+button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #c27b42;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#message {
+  display:none;
+  /* background-color: rgba(255,255,255,0.13); */
+  color: #000;
+  position: relative;
+  margin-top: 10px;
+}
+
+#message p {
+  padding: 10px 35px;
+  font-size: 18px;
+}
+
+#message2 {
+  display:none;
+  /* background-color: rgba(255,255,255,0.13); */
+  color: #000;
+  position: relative;
+  margin-top: 10px;
+}
+
+#message2 p {
+  padding: 10px 35px;
+  font-size: 18px;
+}
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -35px;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -35px;
+  content: "✖";
+}
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form enctype="multipart/form-data" action="" method="post">
+        {% csrf_token %}
+        <h3>Sign UP</h3>
+        <label for="username">Username</label>
+        <input type="text" name="inputUsername" placeholder="Username" size="60" required>
+        {% for message in messages %}
+            <h5>{{message}}</h5>
+        {% endfor %}
+        <label for="email">Email</label>
+        <input type="email" name="inputEmail" placeholder="your@email.com" size="30" required>
+        <label for="url">GitHub URL</label>
+        <input type="url" name="inputGitHub" placeholder="GITHUB link" size="60" required>
+        <label for="url">Profile image</label>
+        <div class="profile-image-upload">
+          <input type="file" name="inputProfileImage" required>
+        </div>
+        <label for="password">Password</label>
+        <input type="password" id="pwd" name="inputPassword" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" size="60" required>
+        <div id="message">
+            <label>Password must contain the following:</label>
+            <p id="letter" class="invalid">A lowercase letter</p>
+            <p id="capital" class="invalid">An uppercase letter</p>
+            <p id="number" class="invalid">A number</p>
+            <p id="length" class="invalid">Minimum 8 characters</p>
+        </div>
+        <label for="password2">Confirm Password</label>
+        <input type="password" id="pwd2" name="inputPassword2" placeholder="Confirm password" size="60" required>
+        <div id="message2">
+            <label>Passwords must Match:</label>
+            <p id="confirmMessage" class="invalid">Passwords match</p>
+        </div>
+        <button type="submit" name="SignupBtn"> Sign Up </button>
+        <p> Do you have an account? <a href="/accounts/login/"> Login </a></p>
+    </form>
+<script>
+    // refrenced from https://www.w3schools.com/howto/howto_js_password_validation.asp
+        var myInput = document.getElementById("pwd");
+        var myInput2 = document.getElementById("pwd2");
+        var letter = document.getElementById("letter");
+        var capital = document.getElementById("capital");
+        var number = document.getElementById("number");
+        var length = document.getElementById("length");
+        var confirmMessage = document.getElementById("confirmMessage");
+        document.getElementById("message").style.display = "block";
+
+        myInput2.onfocus = function() {
+        document.getElementById("message2").style.display = "block";
+        }
+
+        myInput.onkeyup = function() {
+          // Validate lowercase letters
+          var lowerCaseLetters = /[a-z]/g;
+          if(myInput.value.match(lowerCaseLetters)) {  
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+          } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+          }
+          
+          // Validate capital letters
+          var upperCaseLetters = /[A-Z]/g;
+          if(myInput.value.match(upperCaseLetters)) {  
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+          } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+          }
+        
+          // Validate numbers
+          var numbers = /[0-9]/g;
+          if(myInput.value.match(numbers)) {  
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+          } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+          }
+          
+          // Validate length
+          if(myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+          } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+          }
+          if (myInput.value == myInput2.value && myInput.value.length>0){
+            confirmMessage.classList.remove("invalid");
+            confirmMessage.classList.add("valid");
+          } else{
+            confirmMessage.classList.remove("valid");
+            confirmMessage.classList.add("invalid");
+          }
+        }
+        myInput2.onkeyup = function() {
+          if (myInput.value == myInput2.value && myInput2.value.length>0){
+            confirmMessage.classList.remove("invalid");
+            confirmMessage.classList.add("valid");
+          } else{
+            confirmMessage.classList.remove("valid");
+            confirmMessage.classList.add("invalid");
+          }
+        }
+        </script>
+</body>
+</html>
+

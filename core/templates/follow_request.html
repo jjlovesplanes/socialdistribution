@@ -1,0 +1,45 @@
+{% load static %}
+<script src="{% static 'js/cookie.js' %}"></script>
+
+<!-- Include necessary data in a script block -->
+<script>
+    var followRequestData = {
+        authorId: "{{ follow_request.author.url }}",
+        // Add other necessary data here
+    };
+</script>
+
+<div class="request-container">
+    <div class="request-left-section">
+        <a class="profile-link" href="profile/{{ follow_request.follower.id }}">
+            <div class="profile-image">
+                <img src="{{ follow_request.follower.profile_image }}" alt="Profile Image">
+            </div>
+        </a>
+        <a class="profile-link" href="profile/{{ follow_request.follower.id }}">
+            <span class="follow-request-name">{{ follow_request.follower }}</span>
+        </a>
+    </div>
+    <div class="request-options">
+        <button class="request-button accept" data-follower="{{ follow_request.follower.url }}" data-author="{{ follow_request.author.url }}">
+            <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+            <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M21.2287 6.60355C21.6193 6.99407 21.6193 7.62723 21.2287 8.01776L10.2559 18.9906C9.86788 19.3786 9.23962 19.3814 8.84811 18.9969L2.66257 12.9218C2.26855 12.5349 2.26284 11.9017 2.64983 11.5077L3.35054 10.7942C3.73753 10.4002 4.37067 10.3945 4.7647 10.7815L9.53613 15.4677L19.1074 5.89644C19.4979 5.50592 20.1311 5.50591 20.5216 5.89644L21.2287 6.60355Z" fill="green"/>
+            </svg>
+        </button>
+        <button class="request-button decline" data-follower="{{ follow_request.follower.url }}" data-author="{{ follow_request.author.url }}">
+            <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+            <svg width="1em" height="1em" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <title>decline</title>
+                <g id="Layer_2" data-name="Layer 2">
+                <g id="invisible_box" data-name="invisible box">
+                    <rect width="48" height="48" fill="none"/>
+                </g>
+                <g id="icons_Q2" data-name="icons Q2">
+                    <path d="M24,2A22,22,0,1,0,46,24,21.9,21.9,0,0,0,24,2ZM6.1,21.9a18,18,0,0,1,29.1-12L9.9,35.2A18.1,18.1,0,0,1,6.1,21.9ZM26,41.9A18.2,18.2,0,0,1,12.7,38L38,12.8a17.6,17.6,0,0,1,3.9,13.3A18.1,18.1,0,0,1,26,41.9Z" fill="red"/>
+                </g>
+                </g>
+            </svg>
+        </button>
+    </div>
+</div>

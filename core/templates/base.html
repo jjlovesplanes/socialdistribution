@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!--Bootstrap CSS from https://getbootstrap.com/docs/5.3/getting-started/download/-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>{% block title %}Social Distribution{% endblock %}</title>
+</head>
+<body>
+    <div class="grid-container">
+        <nav id="navbar">
+            <h1>Social Distribution</h1>
+            <ul id="navbar-options">
+                <div class="navbar-link-container">
+                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                    <svg width="2em" height="2em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0" fill="none" width="24" height="24"/>
+                        <g>
+                        <path d="M16 19H3v-2h13v2zm5-10H3v2h18V9zM3 5v2h11V5H3zm14 0v2h4V5h-4zm-6 8v2h10v-2H11zm-8 0v2h5v-2H3z"/>
+                        </g>
+                    </svg>
+                    <a href="/" class="navbar-link">Stream</a>
+                </div>
+                {% if request.user.is_authenticated %}
+                <div class="navbar-link-container">
+                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                    <svg fill="#000000" width="2em" height="2em" viewBox="0 0 128 128" id="Layer_1" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g>
+                        
+                        <path d="M64,42c-13.2,0-24,10.8-24,24s10.8,24,24,24s24-10.8,24-24S77.2,42,64,42z M64,82c-8.8,0-16-7.2-16-16s7.2-16,16-16   s16,7.2,16,16S72.8,82,64,82z"/>
+                        
+                        <path d="M64,100.8c-14.9,0-29.2,6.2-39.4,17.1l-2.7,2.9l5.8,5.5l2.7-2.9c8.8-9.4,20.7-14.6,33.6-14.6s24.8,5.2,33.6,14.6l2.7,2.9   l5.8-5.5l-2.7-2.9C93.2,107.1,78.9,100.8,64,100.8z"/>
+                        
+                        <path d="M97,47.9v8c9.4,0,18.1,3.8,24.6,10.7l5.8-5.5C119.6,52.7,108.5,47.9,97,47.9z"/>
+                        
+                        <path d="M116.1,20c0-10.5-8.6-19.1-19.1-19.1S77.9,9.5,77.9,20S86.5,39.1,97,39.1S116.1,30.5,116.1,20z M85.9,20   c0-6.1,5-11.1,11.1-11.1s11.1,5,11.1,11.1s-5,11.1-11.1,11.1S85.9,26.1,85.9,20z"/>
+                        
+                        <path d="M31,47.9c-11.5,0-22.6,4.8-30.4,13.2l5.8,5.5c6.4-6.9,15.2-10.7,24.6-10.7V47.9z"/>
+                        
+                        <path d="M50.1,20C50.1,9.5,41.5,0.9,31,0.9S11.9,9.5,11.9,20S20.5,39.1,31,39.1S50.1,30.5,50.1,20z M31,31.1   c-6.1,0-11.1-5-11.1-11.1S24.9,8.9,31,8.9s11.1,5,11.1,11.1S37.1,31.1,31,31.1z"/>
+                        
+                        </g>
+                    </svg>
+                    <a href="{% url 'users' %}" class="navbar-link">Users</a>
+                </div>
+                <div class="navbar-link-container">
+                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                    <svg width="2em" height="2em" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Dribbble-Light-Preview" transform="translate(-180.000000, -2159.000000)" fill="#000000">
+                                <g id="icons" transform="translate(56.000000, 160.000000)">
+                                    <path d="M134,2008.99998 C131.783496,2008.99998 129.980955,2007.20598 129.980955,2004.99998 C129.980955,2002.79398 131.783496,2000.99998 134,2000.99998 C136.216504,2000.99998 138.019045,2002.79398 138.019045,2004.99998 C138.019045,2007.20598 136.216504,2008.99998 134,2008.99998 M137.775893,2009.67298 C139.370449,2008.39598 140.299854,2006.33098 139.958235,2004.06998 C139.561354,2001.44698 137.368965,1999.34798 134.722423,1999.04198 C131.070116,1998.61898 127.971432,2001.44898 127.971432,2004.99998 C127.971432,2006.88998 128.851603,2008.57398 130.224107,2009.67298 C126.852128,2010.93398 124.390463,2013.89498 124.004634,2017.89098 C123.948368,2018.48198 124.411563,2018.99998 125.008391,2018.99998 C125.519814,2018.99998 125.955881,2018.61598 126.001095,2018.10898 C126.404004,2013.64598 129.837274,2010.99998 134,2010.99998 C138.162726,2010.99998 141.595996,2013.64598 141.998905,2018.10898 C142.044119,2018.61598 142.480186,2018.99998 142.991609,2018.99998 C143.588437,2018.99998 144.051632,2018.48198 143.995366,2017.89098 C143.609537,2013.89498 141.147872,2010.93398 137.775893,2009.67298" id="profile-[#1341]">
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                    <a href="{% url 'profile' id=request.user.id %}" class="navbar-link">Profile</a>
+                </div>
+                <div class="navbar-link-container">
+                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                    <svg fill="#000000" height="2em" width="2em" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                    viewBox="0 0 328 328" xml:space="preserve">
+                        <g id="XMLID_496_">
+                        <path id="XMLID_497_" d="M115,126.75c34.601,0,62.751-28.149,62.751-62.749C177.751,29.4,149.601,1.25,115,1.25
+                        c-34.601,0-62.751,28.15-62.751,62.751C52.249,98.601,80.399,126.75,115,126.75z M115,31.25c18.059,0,32.751,14.692,32.751,32.751
+                        c0,18.058-14.692,32.749-32.751,32.749c-18.059,0-32.751-14.691-32.751-32.749C82.249,45.942,96.941,31.25,115,31.25z"/>
+                        <path id="XMLID_501_" d="M238.606,181.143c-5.858-5.857-15.356-5.857-21.213,0.001l-30,30.002
+                        c-2.813,2.814-4.393,6.629-4.393,10.607c0,3.978,1.581,7.794,4.394,10.607l30,29.998c2.929,2.929,6.768,4.393,10.606,4.393
+                        c3.839,0,7.678-1.465,10.607-4.394c5.858-5.858,5.857-15.356-0.001-21.213l-19.393-19.392l19.393-19.395
+                        C244.465,196.498,244.464,187.001,238.606,181.143z"/>
+                        <path id="XMLID_502_" d="M223,116.75c-34.488,0-65.144,16.716-84.297,42.47c-7.763-1.628-15.694-2.47-23.703-2.47
+                        c-63.411,0-115,51.589-115,115c0,8.284,6.716,15,15,15h125.596c19.247,24.348,49.031,40,82.404,40c57.897,0,105-47.103,105-105
+                        S280.897,116.75,223,116.75z M31.325,256.75c7.106-39.739,41.923-70,83.675-70c2.966,0,5.914,0.165,8.841,0.467
+                        c-3.779,10.82-5.841,22.44-5.841,34.533c0,12.268,2.122,24.047,6.006,35H31.325z M223,296.75c-41.355,0-75-33.645-75-75
+                        s33.645-75,75-75s75,33.645,75,75S264.355,296.75,223,296.75z"/>
+                        </g>
+                    </svg>
+                    <a href="{% url 'following' author_id=request.user.id %}" class="navbar-link">Following</a>
+                </div>
+                <div class="navbar-link-container">
+                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                    <svg fill="#000000" height="2em" width="2em" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                    viewBox="0 0 328 328" xml:space="preserve">
+                        <g id="XMLID_486_">
+                        <path id="XMLID_487_" d="M115,126.75c34.601,0,62.751-28.149,62.751-62.749C177.751,29.4,149.601,1.25,115,1.25
+                        c-34.601,0-62.75,28.15-62.75,62.751C52.25,98.601,80.399,126.75,115,126.75z M115,31.25c18.059,0,32.751,14.692,32.751,32.751
+                        c0,18.058-14.692,32.749-32.751,32.749c-18.059,0-32.75-14.691-32.75-32.749C82.25,45.942,96.941,31.25,115,31.25z"/>
+                        <path id="XMLID_490_" d="M228.607,181.144c-5.858-5.858-15.355-5.859-21.213-0.001c-5.858,5.857-5.858,15.355-0.001,21.213
+                        l19.393,19.395l-19.393,19.392c-5.858,5.857-5.858,15.355-0.001,21.213c2.929,2.929,6.768,4.394,10.607,4.394
+                        c3.838,0,7.678-1.464,10.607-4.393l30-29.998c2.813-2.813,4.393-6.628,4.393-10.606c0-3.978-1.58-7.793-4.393-10.607
+                        L228.607,181.144z"/>
+                        <path id="XMLID_491_" d="M223,116.75c-34.488,0-65.144,16.716-84.297,42.47c-7.763-1.628-15.695-2.47-23.703-2.47
+                        c-63.411,0-115,51.589-115,115c0,8.284,6.716,15,15,15h125.596c19.247,24.348,49.031,40,82.404,40c57.897,0,105-47.103,105-105
+                        S280.897,116.75,223,116.75z M31.325,256.75c7.106-39.739,41.923-70,83.675-70c2.965,0,5.914,0.165,8.841,0.467
+                        c-3.779,10.82-5.841,22.44-5.841,34.533c0,12.268,2.122,24.047,6.006,35H31.325z M223,296.75c-41.355,0-75-33.645-75-75
+                        s33.645-75,75-75s75,33.645,75,75S264.355,296.75,223,296.75z"/>
+                        </g>
+                    </svg>
+                    <a href="{% url 'followers' author_id=request.user.id %}" class="navbar-link">Followers</a>
+                </div>
+                {% else %}
+                    <div class="navbar-link-container">
+                        <a href="/accounts/login/" class="navbar-link">Log In</a>
+                    </div>
+                    <div class="navbar-link-container">
+                        <a href="/signup" class="navbar-link">Sign Up</a>
+                    </div>
+                {% endif %}
+            </ul>
+        </nav>
+        <header id="site-header">
+            <!-- Searchbar to be added later -->
+            <input id="searchbar" type="text" placeholder="Search Social Distribution...">
+            {% if request.user.is_authenticated %}
+                <div class="dropdown" style="position: fixed; top: 0; right: 0; margin-top:10px; margin-right: 20px; z-index: 1;">        
+                    <div class="dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ request.user.author.profile_image }}" alt="Profile picture" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;">
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="{% url 'profile' request.user.id %}">Profile</a></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link dropdown-item" style="text-decoration: none; color: inherit;">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+        </header>
+        <main id="content">{% block content %} {% endblock %}</main>
+    </div>
+    <!--Bootstrap JavaScript from https://getbootstrap.com/docs/5.3/getting-started/download/-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+    <script>
+        // Referenced: https://www.w3schools.com/howto/howto_js_trigger_button_enter.asp (accessed Apr. 1, 2024) - How to handle enter key press in JavaScript
+        const searchbar = document.getElementById('searchbar')
+        searchbar.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault()
+                
+                // Go to users page using the searchbar input as a query parameter to filter results
+                window.location.replace(`/users?input=${searchbar.value}`)
+            }
+        })
+    </script>
+
+</body>
+</html>

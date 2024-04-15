@@ -1,0 +1,19 @@
+{
+  "name": "w24-project-hypertextheroes",
+  "version": "1.0.0",
+  "description": "Social Distribution Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uofa-cmput404/w24-project-hypertextheroes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uofa-cmput404/w24-project-hypertextheroes/issues"
+  },
+  "homepage": "https://github.com/uofa-cmput404/w24-project-hypertextheroes#readme"
+}

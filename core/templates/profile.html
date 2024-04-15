@@ -1,0 +1,83 @@
+{% extends "base.html" %} {% block title %} Profile {% endblock %}
+{% block content %}
+{% load static %}
+<script src="{% static 'js/followers.js' %}"></script>
+<script src="{% static 'js/cookie.js' %}"></script>
+
+<!-- Include necessary data in a script block -->
+<script>
+    var followerData = {
+        authorUUID: "{{ author.uuid }}",
+        userUUID: "{{ current_user.uuid }}"
+    };
+</script>
+<header id="profile-header">
+    <div id="profile-header-left">
+        <div id="profile-image-container">
+            <div id="profile-page-image">
+                <img src="{{ author.profile_image}}" alt="Profile Image">
+            </div>
+        </div>
+        <div id="names-container">
+            <h2>{{ author.user }}</h2>
+            <!-- The link below should work once user authentication is implemented properly -->
+            <h4>GitHub: <a id="github-link" href="{{ author.github }}">{{ github_name }}</a></h4>
+            <!-- Display follow button if user is not on their own profile and they aren't following the other user -->
+            {% if request.user.id != author.user_id and not is_follower and not request_sent %}
+                <!-- Send follow request -->
+                <form action="/authors/{{ author.url }}/follow_request/{{ current_user.url }}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Send Follow Request</button>
+                </form>
+            {% elif request.user.id != author.user_id and request_sent %}
+                <!-- Remove follow request -->
+                <button type="submit" class="btn btn-primary remove-follower-button">Remove Follow Request</button>
+            {% elif request.user.id != author.user_id and is_follower %}
+                <!-- Unfollow author -->
+                <button type="submit" class="btn btn-primary remove-follower-button">Unfollow</button>
+            {% endif %}
+            {% if request.user.id == author.user_id %}
+                <button type="button" id="edit-profile-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                    Edit Profile
+                </button>
+            {% endif %}
+        </div>
+    </div>
+    <div id="connections-container">
+        <a href="{% url 'following' author_id=author.id %}" class="connections">
+            <span>Following</span>
+            <span class="num-connections bold" id="num-following">{{ num_following }}</span>
+        </a>
+        <a href="{% url 'followers' author_id=author.id %}" class="connections">
+            <span>Followers</span>
+            <span class="num-connections bold" id="num-followers">{{ num_followers }}</span>
+        </a>
+    </div>
+</header>
+<div class="content-container">
+    <div class="posts-container">
+        <h2>Posts</h2>
+        {% if posts == None %}
+            <h3>No posts found</h3>
+        {% endif %}
+        {% for post in posts %}
+            {% include 'post.html' %}
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Bootstrap Modal from: https://getbootstrap.com/docs/5.3/components/modal/ -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Profile</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {% include 'edit_profile.html' %}
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

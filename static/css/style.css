@@ -1,0 +1,390 @@
+/* General styles */
+.grid-container {
+    padding: 1em;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 0.5em;
+}
+
+#site-header {
+    height: fit-content;
+    margin-bottom: 2em;
+}
+
+#navbar {
+    padding-left: 1em;
+    grid-row: span 2;
+    grid-column-start: 1;
+}
+
+#navbar-options {
+    padding-left: 0;
+}
+
+#navbar>h1 {
+    font-size: x-large;
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+.navbar-link-container {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+.navbar-link {
+    color: black;
+    text-decoration: none;
+    font-size: x-large;
+}
+
+.navbar-link:hover {
+    font-weight: 600;
+}
+
+.logout {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+
+.content-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1em;
+}
+
+/* Referenced: https://stackoverflow.com/questions/43999732/how-to-make-a-fixed-column-in-css-using-css-grid-layout (accessed Feb. 22 2024) */
+.right-section {
+    display: flex;
+    flex-direction: column;
+    max-width: 28em;
+    padding-right: 1em;
+    gap: 1em;
+    grid-row: 1;
+}
+
+@media only screen and (min-width: 1000px) {
+    .content-container {
+        grid-template-columns: 3fr 1fr;
+        gap: 4em;
+    }
+
+    #stream {
+        grid-column: 1;
+    }
+
+    .right-section {
+        grid-column: 2;
+        height: 100vh;
+    }
+}
+
+.right-section-header {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    justify-content: space-between;
+    padding-right: 1em;
+}
+
+.count {
+    border-radius: 100%;
+    width: 2em;
+    height: 2em;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.side-box {
+    display: flex;
+    flex-direction: column;
+    max-height: 16em;
+    width: 100%;
+    border-radius: 1em;
+    background-color: lightgray;
+    overflow-y: auto;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+/* Post */
+.post-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-header-left {
+    display: flex;
+    gap: 0.5em;
+}
+
+.profile-image {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    height: 4em;
+    width: 4em;
+    border: 2px solid #000;
+}
+
+.author-title-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+.profile-link {
+    color: black;
+    text-decoration: none;
+}
+
+.post-image {
+    margin-top: 1em;
+}
+
+.post-content {
+    margin: 1em 0 1em 0;
+}
+
+.options {
+    cursor: pointer;
+    /* Disable text selection. Referenced: https://www.w3schools.com/howto/howto_css_disable_text_selection.asp */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.post-footer {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-options {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.like-container {
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+}
+
+.like-button {
+    color: black;
+}
+
+.num-likes {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#comments-section {
+    max-height: 24em;
+    overflow-y: auto;
+}
+
+.shared-post {
+    color: black;
+    text-decoration: none;
+    width: 90%;
+    border: 2px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+}
+
+.shared-post a {
+    color: black;
+    text-decoration: none;
+}
+
+/* Post Forms */
+.modal-form, .page-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-form {
+    align-items: center;
+}
+
+.modal-form>p, .page-form>p {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-form>p {
+    width: 75%;
+}
+
+.page-form>p {
+    width: 50%;
+}
+
+.page-form>p>select, .page-form>button {
+    width: 8em;
+}
+
+/* Stream page */
+
+.request-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    padding: 0.5em;
+}
+
+.request-left-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.follow-request-name {
+    font-size: x-large;
+}
+
+.request-options {
+    display: flex;
+    gap: 0.5em
+}
+
+.request-button {
+    width: 3em;
+    height: 3em;
+    border-radius: 100%;
+}
+
+.request-button:hover {
+    background-color: black;
+}
+
+#clear-notifications {
+    margin-top: 0.5em;
+    background-color: transparent;
+    border: none;
+}
+
+.notification {
+    padding: 0.5em;
+}
+
+.notification a {
+    color: black;
+    text-decoration: none;
+}
+
+
+/* Profile page */
+#profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2em 0 2em 0;
+}
+
+#profile-header-left {
+    display: flex;
+    gap: 2em;
+}
+
+#profile-image-container {
+    position: relative;
+    height: 10em;
+    width: 10em;
+}
+
+#profile-page-image {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    border: 2px solid #000;
+}
+
+#profile-page-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+#names-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+}
+
+#edit-profile-button {
+    width: 12em;
+}
+
+#names-container h2, #names-container h4 {
+    margin: 0;
+}
+
+#connections-container {
+    display: flex;
+    gap: 1em;
+    padding: 0 2em 0 2em;
+}
+
+.connections {
+    color: black;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    align-items: center;
+}
+
+/* Followers/Following */
+#users-page {
+    min-height: 25vh;
+}
+
+#users-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    background-color: lightgray;
+    padding: 1em 0.5em 0.5em 0.5em;
+    border-radius: 1em;
+}
+
+.user-image {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    height: 10em;
+    width: 10em;
+    border-radius: 1em;
+}

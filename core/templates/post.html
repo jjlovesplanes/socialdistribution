@@ -1,0 +1,169 @@
+{% load crispy_forms_tags %}
+<style>
+img {
+    max-width: 500px;
+    height: auto;
+}
+</style>
+<div class="post-container">
+    <hr>
+    <header class="post-header">
+        <div class="post-header-left">
+            {% if post.shared_title and post.shared_body %}
+                <a class="profile-link" href="/profile/{{post.shared_user.id}}">
+                    <div class="profile-image">
+                        <img src="{{post.shared_user.profile_image}}" alt="Profile Image">
+                    </div>
+                </a>
+                <div class="author-title-container">
+                    <a class="profile-link" href="/profile/{{post.shared_user.id}}">{{ post.shared_user }}</a>
+                    <a class="profile-link" href="/posts/{{post.copy_of_original_id}}"></a>
+                        <span class="bold">{{ post.shared_title }}</span>
+                    </a>
+                </div>
+            {% else %}
+                <a class="profile-link" href="/profile/{{post.author.id}}">
+                    <div class="profile-image" style="border: 2px solid #000; border-radius: 50%; overflow: hidden;">
+                        <img src="{{post.author.profile_image}}" alt="Profile Image">
+                    </div>
+                </a>
+                <div class="author-title-container">
+                    <a class="profile-link" href="/profile/{{post.author.id}}">{{ post.author }}</a>
+                    <a class="profile-link" href="/posts/{{post.id}}">
+                        <span class="bold">{{ post.title }}</span>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+        {% if request.user.is_authenticated %}
+            {% if request.user.id == post.author.id and not post.shared_user or request.user.id == post.shared_user.id %}
+                <!-- Bootstrap dropdown component: https://getbootstrap.com/docs/5.3/components/dropdowns/ -->
+                <div class="options dropdown">
+                    <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg fill="#000000" width="25" height="25" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.15 28.012v-0.85c0.019-0.069 0.050-0.131 0.063-0.2 0.275-1.788 1.762-3.2 3.506-3.319 1.95-0.137 3.6 0.975 4.137 2.787 0.069 0.238 0.119 0.488 0.181 0.731v0.85c-0.019 0.056-0.050 0.106-0.056 0.169-0.269 1.65-1.456 2.906-3.081 3.262-0.125 0.025-0.25 0.063-0.375 0.094h-0.85c-0.056-0.019-0.113-0.050-0.169-0.056-1.625-0.262-2.862-1.419-3.237-3.025-0.037-0.156-0.081-0.3-0.119-0.444zM20.038 3.988l-0 0.85c-0.019 0.069-0.050 0.131-0.056 0.2-0.281 1.8-1.775 3.206-3.538 3.319-1.944 0.125-3.588-1-4.119-2.819-0.069-0.231-0.119-0.469-0.175-0.7v-0.85c0.019-0.056 0.050-0.106 0.063-0.162 0.3-1.625 1.244-2.688 2.819-3.194 0.206-0.069 0.425-0.106 0.637-0.162h0.85c0.056 0.019 0.113 0.050 0.169 0.056 1.631 0.269 2.863 1.419 3.238 3.025 0.038 0.15 0.075 0.294 0.113 0.437zM20.037 15.575v0.85c-0.019 0.069-0.050 0.131-0.063 0.2-0.281 1.794-1.831 3.238-3.581 3.313-1.969 0.087-3.637-1.1-4.106-2.931-0.050-0.194-0.094-0.387-0.137-0.581v-0.85c0.019-0.069 0.050-0.131 0.063-0.2 0.275-1.794 1.831-3.238 3.581-3.319 1.969-0.094 3.637 1.1 4.106 2.931 0.050 0.2 0.094 0.394 0.137 0.588z"></path>
+                        </svg>
+                    </div>
+                    <ul class="dropdown-menu">
+                        {% if request.user.id == post.author.id and not post.shared_user %}
+                        <!-- Only show "Edit Post" for original author of post -->
+                            <li><a class="dropdown-item" href="/posts/{{post.id}}/edit/">Edit Post</a></li>
+                        {% endif %}
+                        <li>
+                            <form action="{% url 'post_delete' post.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="Delete Post" class="dropdown-item" style="cursor:pointer; border:none; color:red; ">
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}
+    </header>
+    <!-- IMAGE (only display if it is the original post) -->
+    {% if post.image_url and not post.shared_body %}
+        <img class="post-image" src="{{ post.image_url }}" alt="{{ post.title }}"> 
+    {% endif %}
+    {% load markdown_filter %}
+
+    {% if post.shared_user %}
+        <p class="post-content">{{ post.shared_body }}</p>
+        <div class="shared-post">
+            <a href="/posts/{{post.copy_of_original_id}}">
+                <div class="post-header-left">
+                    <div class="profile-image" style="border: 2px solid #000; border-radius: 50%; overflow: hidden;">
+                        <img src="{{post.author.profile_image}}" alt="Profile Image">
+                    </div>
+                    <div class="author-title-container">
+                        <div class="profile-link" href="/profile/{{post.author.id}}">{{ post.author }}</div>
+                        <a class="profile-link" href="/posts/{{post.copy_of_original_id}}"></a>
+                            <span class="bold">{{ post.title }}</span>
+                        </a>
+                    </div>
+                </div>
+                {% if post.image_url %}
+                    <img class="post-image" src="{{ post.image_url }}" alt="{{ post.title }}"> 
+                {% endif %}
+                <p class="post-content">{{ post.content_markdown|markdown_to_html|safe }}</p>
+            </a>
+        </div>
+    {% else %}
+        <p class="post-content">{{ post.content_markdown|markdown_to_html|safe }}</p>
+    {% endif %}
+    <footer class="post-footer">
+        <div class="post-options">
+            <!-- LIKE BUTTON -->
+            <div class="like-container">
+                <a href="/posts/like-post?post_id={{post.id}}" class="like-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="25" height="25" class="">
+                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                    </svg>
+                </a>
+                <span class="num-likes">{{ post.no_of_likes }}</span>
+            </div>
+            
+            <!-- COMMENT BUTTON -->
+            <a href="{% url 'add_comment' post.pk %}">
+                <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                <svg width="25" height="25" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                        <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-100.000000, -255.000000)" fill="#000000">
+                            <path d="M116,281 C114.832,281 113.704,280.864 112.62,280.633 L107.912,283.463 L107.975,278.824 C104.366,276.654 102,273.066 102,269 C102,262.373 108.268,257 116,257 C123.732,257 130,262.373 130,269 C130,275.628 123.732,281 116,281 L116,281 Z M116,255 C107.164,255 100,261.269 100,269 C100,273.419 102.345,277.354 106,279.919 L106,287 L113.009,282.747 C113.979,282.907 114.977,283 116,283 C124.836,283 132,276.732 132,269 C132,261.269 124.836,255 116,255 L116,255 Z" id="comment-1" sketch:type="MSShapeGroup">
+                            </path>
+                            
+                        </g>
+                    </g>
+                </svg>
+            </a>
+
+            
+
+            <!-- SHARE BUTTON -->
+        {% if post.visibility == "PUBLIC" %}
+            <a href="javascript:void(0);" onclick= "shareToggle('{{ post.pk }}')" >
+                <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                <svg width="25" height="25" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.47 4.13998C12.74 4.35998 12.28 5.96 12.09 7.91C6.77997 7.91 2 13.4802 2 20.0802C4.19 14.0802 8.99995 12.45 12.14 12.45C12.34 14.21 12.79 15.6202 13.47 15.8202C15.57 16.4302 22 12.4401 22 9.98006C22 7.52006 15.57 3.52998 13.47 4.13998Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <script src="\static\js\share.js"></script>
+        {% endif %}
+        </div>
+
+        <div class="share-form-container text-start" style="max-width: 400px; margin-left: auto; margin-right: auto;">
+            <form method="POST" action="{% url 'share-post' post.pk %}" class = "d-none" id="{{ post.pk }}">
+                {% csrf_token %}
+                {{ shareform | crispy }}
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success mt-3">Share the post</button>
+                </div>
+            </form>
+        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <!-- <p style="font-size: 0.8em;"><i>Posted {{ post.date_posted|timesince }} ago</i></p>         COMMENTS SECTION -->
+         <h3>Comments...</h3>
+         {% if not post.comments.all %}
+             No Comments Yet...
+         {% else %}
+             <div id="comments-section">
+                 {% for comment in post.comments.all %}
+                <div style="display: flex; align-items: center;">
+                    <div>
+                        <strong>{{ comment.author.user }} - {{ comment.date_added}}</strong>
+                        <p>{{ comment.get_markdown|safe }}</p>
+                    </div>
+                    <!-- Like button for comment -->
+                    <form action="{% url 'like_comment' comment.id %}" method="post" style="margin-left: 10px;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link" style="color: black;">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button>
+                    </form>
+                    <span>{{ comment.likecomment_set.count }}</span>
+                </div>
+                 {% endfor %}
+             </div>
+         {% endif %}
+    </footer>
+    <hr>
+</div>

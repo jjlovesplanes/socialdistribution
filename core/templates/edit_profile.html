@@ -1,0 +1,6 @@
+<!-- Referenced: https://stackoverflow.com/questions/67556225/django-submit-form-in-bootstrap-modal -->
+<form method="post" action="edit" enctype="multipart/form-data" class="modal-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>

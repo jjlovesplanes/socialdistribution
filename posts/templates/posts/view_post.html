@@ -1,0 +1,7 @@
+{% extends "base.html" %} {% block title %} Social Distribution - {{ post.title }} {% endblock %}
+{% block content %}
+    <a href="/">
+        <button type="button" class="btn btn-primary">Back to Stream</button>
+    </a>
+    {% include 'post.html' %}
+{% endblock %}

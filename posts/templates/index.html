@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Public Posts</title>
+</head>
+<body>
+    <h1>Public Posts</h1>
+    
+    {% if posts %}
+        <div class="posts-list">
+            {% for post in posts %}
+                <div class="post">
+                    <h2>{{ post.title }}</h2>
+                    <div>{{ post.content_html|safe }}</div>
+                    <p>Posted by {{ post.author }} on {{ post.created_at }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No posts to display.</p>
+    {% endif %}
+</body>
+</html>

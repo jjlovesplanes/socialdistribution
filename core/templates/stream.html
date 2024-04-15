@@ -1,0 +1,225 @@
+{% extends "base.html" %} {% block title %} Posts {% endblock %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{% if request.user.is_authenticated %}
+{% load static %}
+<script src="{% static 'js/stream.js' %}"></script>
+<script src="{% static 'js/cookie.js' %}"></script>
+<script src="{% static 'js/followRequest.js' %}"></script>
+
+
+<script>
+    const userData = {
+        id: "{{ user_uuid }}",
+        github: "{{ github }}",
+        lastPostTime: "{{ last_post_time }}"
+    };
+</script>
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'ajax_notification' %}",
+                success: function (response) {
+                    $("#notifications").empty();
+                    var content = '<div class="right-section-header"><h1>Notifications</h1>';
+                    if (response.notifications.length > 0) {
+                        content += '<span class="count">' + response.notifications.length + '</span>';
+                        content += '</div>';
+                        content += '<div class="side-box">';
+                        response.notifications.forEach(function (notification) {
+                            content += '<div class="notification"><a href="/posts/' + notification.notification_post_id + '">' + notification.notification_message + '</a></div>';
+                        });
+                        content += '</div>';
+                        content +='<button id="clear-notifications">Mark All as Read</button>'
+                    } else {
+                        content += '</div>';
+                        content += '<div class="side-box">';
+                        content += '<h4 class="p-4">No notifications</h4>';
+                        content += '</div>';
+                    }
+                    $("#notifications").html(content);
+                    const clearButton = document.getElementById("clear-notifications");
+                    if (clearButton) {
+                        clearButton.addEventListener('click', async () => {
+                        const response = await fetch(`/authors/${userData.id}/inbox`, {
+                            method: "DELETE",
+                            headers: {
+                                'X-CSRFToken': getCookie('csrftoken'),
+                            }
+                        }).catch(error => console.error('Error:', error));
+
+                        if (response.status != 204) {
+                            console.log("Inbox could not be cleared");
+                        }
+                    })
+                    }
+                },
+                error: function (response) {
+                    console.log('err');
+                }
+            });
+        }, 1000);
+    }); 
+</script>
+<script>
+    $(document).ready(function () {
+        var followRequestData = {
+            authorId: "{{ follow_request.author.url }}",
+        };
+        $('body').on('click', '.request-button.accept', function () {
+            const button = $(this);
+            const followerId = button.data('follower');
+            const authorId = button.data('author');
+            console.log(button);
+            handleFollowRequest(followerId, 'PUT', authorId);
+        });
+
+        $('body').on('click', '.request-button.decline', function () {
+            const button = $(this);
+            const followerId = button.data('follower');
+            const authorId = button.data('author');
+            handleFollowRequest(followerId, 'DELETE', authorId);
+        });
+
+        setInterval(function () {
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'ajax_follow' %}",
+                success: function (response) {
+                    var followBox = $("#follow-requests");
+                    followBox.empty();
+                    console.log(response.followers_req.length)
+                    if (response.followers_req.length > 0) {
+                        const followerHeader = `
+                            <div class="right-section-header">
+                                <h1>Follow Requests</h1>
+                                <span class="count">${response.followers_req.length}</span>
+                            </div>
+                            <div class="side-box"></div>
+                        `
+                        followBox.append(followerHeader);
+                        const sideBox = $('#follow-requests .side-box')
+                        response.followers_req.forEach(function (req) {
+                            var temp = `
+                            <div class="request-container">
+                                <div class="request-left-section">
+                                    <a class="profile-link" href="profile/${req.follower_id}">
+                                        <div class="profile-image">
+                                            <img src="${req.follower_profile_image}" alt="Profile Image">
+                                        </div>
+                                    </a>
+                                    <a class="profile-link" href="profile/${req.id}">
+                                        <span class="follow-request-name">${req.follower_name}</span>
+                                    </a>
+                                </div>
+                                <div class="request-options">
+                                    <button class="request-button accept" data-follower="${req.follower_url}" data-author = "${req.authorID}">
+                                        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.2287 6.60355C21.6193 6.99407 21.6193 7.62723 21.2287 8.01776L10.2559 18.9906C9.86788 19.3786 9.23962 19.3814 8.84811 18.9969L2.66257 12.9218C2.26855 12.5349 2.26284 11.9017 2.64983 11.5077L3.35054 10.7942C3.73753 10.4002 4.37067 10.3945 4.7647 10.7815L9.53613 15.4677L19.1074 5.89644C19.4979 5.50592 20.1311 5.50591 20.5216 5.89644L21.2287 6.60355Z" fill="green"/>
+                                        </svg>
+                                    </button>
+                                    <button class="request-button decline" data-follower="${req.follower_url}" data-author = "${req.authorID}">
+                                    <svg width="1em" height="1em" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                        <title>decline</title>
+                                        <g id="Layer_2" data-name="Layer 2">
+                                        <g id="invisible_box" data-name="invisible box">
+                                            <rect width="48" height="48" fill="none"/>
+                                        </g>
+                                        <g id="icons_Q2" data-name="icons Q2">
+                                            <path d="M24,2A22,22,0,1,0,46,24,21.9,21.9,0,0,0,24,2ZM6.1,21.9a18,18,0,0,1,29.1-12L9.9,35.2A18.1,18.1,0,0,1,6.1,21.9ZM26,41.9A18.2,18.2,0,0,1,12.7,38L38,12.8a17.6,17.6,0,0,1,3.9,13.3A18.1,18.1,0,0,1,26,41.9Z" fill="red"/>
+                                        </g>
+                                        </g>
+                                    </svg>
+                                    </button>
+                                </div>
+                            </div>`;
+                            sideBox.append(temp);
+                        });
+                        followBox.append(sideBox);
+                    }
+                    else {
+                        var temp = ` <div class="right-section-header">
+                            <h1>Follow Requests</h1>
+                            </div>
+                            <div class="side-box">
+                                <h4 class="p-4">No follow requests</h4>
+                            </div>
+                            `;
+                        followBox.append(temp);
+                    }
+                },
+
+                error: function (response) {
+                    console.log('Error fetching follow requests:', response);
+                }
+            });
+        }, 1000);
+    });
+</script>
+
+
+{% endif %}
+<div class="content-container">
+    <div id="stream">
+        <h1>Stream</h1>
+        {% if request.user.is_authenticated %}
+        <a href="/posts/create">
+            <button type="button" class="btn btn-primary">Create Post</button>
+        </a>
+        {% endif %}
+        <div class="posts-container">
+            {% if posts == None %}
+            <h3>No posts found</h3>
+            {% endif %}
+            {% for post in posts %}
+            {% include 'post.html' %}
+            {% endfor %}
+        </div>
+    </div>
+    {% if request.user.is_authenticated %}
+    <div class="right-section">
+
+        <div id="follow-requests">
+            <div class="right-section-header">
+                <h1>Follow Requests</h1>
+                {% if follow_requests.count > 0 %}
+                <span class="count">{{ follow_requests.count }}</span>
+                {% endif %}
+            </div>
+            <div class="side-box">
+                {% if follow_requests == None %}
+                <h4 class="p-4">No follow requests</h4>
+                {% else %}
+                    {% for follow_request in follow_requests %}
+                        {% include 'follow_request.html' %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div id="notifications">
+            <div class="right-section-header" id='notification_box'>
+                <h1>Notifications</h1>
+                {% if notifications.count > 0 %}
+                <span class="count">{{ notifications.count }}</span>
+                {% endif %}
+            </div>
+                <div class="side-box">
+                    {% if notifications|length == 0 %}
+                        <h4 class="p-4">No notifications</h4>
+                    {% else %}
+                        {% for notification in notifications %}
+                            {% include 'notification.html' %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% if notifications|length > 0 %}
+                    <button id="clear-notifications">Mark All as Read</button>
+                {% endif %}
+        </div>
+        
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
